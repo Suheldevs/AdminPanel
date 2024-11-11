@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodbURL = 'mongodb://localhost:27017/AdminPanel';
+const cors = require('cors');
 const app = express();
+app.use(cors());
+
 
 app.use(bodyParser.json());
 
@@ -28,6 +31,8 @@ const adminSchema = new mongoose.Schema({
 
 const Admin = mongoose.model('Admin', adminSchema);
 
+
+//admin resister
 app.post('/admin/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -38,6 +43,28 @@ app.post('/admin/register', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+//admin login
+app.post('/admin/login', async(req,res)=>{
+    try{
+        const {name,email,password}=req.body;
+        const adminData =await Admin.findOne({email});
+       if(!adminData){res.status(400).json({message:'Admin Not found by this email'})};
+       if(adminData){
+        if(adminData.name == name && adminData.password == password){
+            res.status(200).json({ message: 'Log in successfully!',admin:adminData}); 
+        }
+        else{
+            res.status(400).json({message:'Please enter a Valid Password or Name'});;
+        }
+       }
+    }
+    catch(err){
+        res.status(500).json({message:err.message});
+    }
+})
+
+
 
 // Create Student Schema
 const studentSchema = new mongoose.Schema({
@@ -86,8 +113,7 @@ const studentSchema = new mongoose.Schema({
     },
     Admin: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Admin',
-        required:true
+        ref: 'Admin', 
     }
 });
 
@@ -103,6 +129,23 @@ app.post('/admin/student/register', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+//student data 
+
+app.get('/student/data', async(req,res)=>{
+    try{
+    const studentData = await Student.find();
+    if(!studentData){
+        res.status(400).json({ message: 'Server Error' });
+    }
+    res.status(200).json({ message: 'Student data saved successfully!', studentData:studentData });
+
+    }
+    catch(err){
+        res.status(500).json({ message: err.message });
+    }
+} )
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
