@@ -4,11 +4,11 @@ import { FaUserEdit, FaSignOutAlt, FaUser, FaChalkboardTeacher, FaCogs, FaLaptop
 import { useLocation } from 'react-router-dom';
 import StudentData from '../Components/StudentData';
 
-const AdminDashboard = () => {
+const StudentDashboard = () => {
 //location
 const location = useLocation();
 
-const  adminData  = location.state?.adminData || {}; 
+const  studentData  = location.state?.studentData || {}; 
 
 
 
@@ -20,11 +20,11 @@ const  adminData  = location.state?.adminData || {};
     switch (activeSection) {
       case 'students':
         return <div className="p-4">
-            <StudentData/>
+            {/* <StudentData/> */} Helo
         </div>;
       case 'dashboard':
         return <div className="p-4">
-            <h1>{adminData.name}</h1>
+            <h1>{studentData.Name}</h1>
         </div>;
       case 'teachers':
         return <div className="p-4">Teachers Content</div>;
@@ -48,7 +48,7 @@ const  adminData  = location.state?.adminData || {};
             className="w-12 h-12 rounded-full mr-3"
           />
           <div>
-            <h2 className="text-lg font-semibold">{adminData.name}</h2>
+            <h2 className="text-lg font-semibold">{studentData.Name}</h2>
           </div>
         </div>
         <div className="flex gap-4">
@@ -63,7 +63,7 @@ const  adminData  = location.state?.adminData || {};
         </div>
       </header>
 
-      <div className="block md:flex">
+      <div className="block md:flex md:flex-1">
         {/* Sidebar */}
         <aside className="md:w-1/6 bg-gray-200 p-6">
           <nav className="flex flex-col gap-4">
@@ -107,4 +107,4 @@ const  adminData  = location.state?.adminData || {};
   );
 };
 
-export default AdminDashboard;
+export default StudentDashboard;
