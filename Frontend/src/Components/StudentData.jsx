@@ -5,6 +5,8 @@ import StudentModal from './StudentModel';
 import StudentEdit from './StudentEdit';
 import Swal from 'sweetalert2';
 import { Input } from '@headlessui/react';
+import {jsPDF} from 'jspdf';
+import 'jspdf-autotable';
 
 const StudentData = ({student}) => {
 
@@ -114,6 +116,36 @@ else{
 
 }
 
+//export to PDF
+
+const exportToPDF = ()=>{
+  
+const doc = new jsPDF();
+doc.text("User Data",20,10);
+//define columns and tables
+const columns=["Roll No","Name","Father Name","Class","Mobile No","gender","Enroll no." ];
+const rows=studentfilter.map(user=>[
+  user.RollNo,
+  user.Name,
+  user.FatherName,
+  user.Class,
+  user.MobileNo,
+  user.gender,
+  user.EnrollNo,
+
+]);
+doc.autoTable({
+  startY:20,
+  head:[columns],
+  body:rows,
+});
+
+//save the pdf
+doc.save('userData.pdf');
+
+}
+
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h2 className="text-2xl font-semibold text-center mb-6">Student List</h2>
@@ -121,6 +153,7 @@ else{
     <div className='w-96'>
         <TextInput type='text' placeholder='Search Student' value={searchText} onChange={handleSearch}/>
     </div>
+    <Button onClick={exportToPDF}>Export to PDF</Button>
     <div className=''>
     <div className="">
       {/* Button to open the modal */}

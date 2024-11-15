@@ -55,15 +55,15 @@ navigate('/student/dashboard', { state: { studentData}  });
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Student Log In</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-gray-600 font-medium mb-2">Name</label>
+            <label className="block text-gray-600 font-medium mb-2">Email</label>
             <input
               type="text"
               placeholder='Student Name'
-              {...register('Name', { required: 'Name is required' })}
+              {...register('Email', { required: 'Email is required' })}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.Name && (
-              <p className="text-red-500 text-sm mt-1">{errors.Name.message}</p>
+            {errors.Email && (
+              <p className="text-red-500 text-sm mt-1">{errors.Email.message}</p>
             )}
           </div>
           <div>

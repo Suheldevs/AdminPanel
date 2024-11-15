@@ -10,6 +10,7 @@ const StudentModal = ({ isOpen, onClose, onSave }) => {
     RollNo: '',
     Class: '',
     MobileNo: '',
+    Email:'',
     Password: '',
     gender: '',
     marks: [{ subject: '', score: '' }],
@@ -38,8 +39,13 @@ const StudentModal = ({ isOpen, onClose, onSave }) => {
 
   const handleSave = async() => {
     onSave(studentData);
+    // if(!studentData.Name && !studentData.Email && !studentData.Class && !studentData.EnrollNo && !studentData.MobileNo){
+      
+    // }
+console.log(studentData);
     const apiKey = 'http://localhost:3000/admin/student/register';
     try{
+      console.log(studentData)
       const response = await axios.post(apiKey, studentData);
       Swal.fire({
         title: 'Success!',
@@ -47,10 +53,37 @@ const StudentModal = ({ isOpen, onClose, onSave }) => {
         icon: 'success',
         confirmButtonText: 'OK',
       });
-      onClose();
+     
+
+//sending email
+const templateParams = {
+  Name:studentData.Name,
+  Email: studentData.Email,
+  Password: studentData.Password,
+};
+
+try {
+  const response = await emailjs.send(
+    "serviceID",
+    "template_f0nnzfl",
+    templateParams,
+  );
+  console.log('Email sent successfully:', response);
+  alert('Student added, email sent with password!');
+} catch (error) {
+  console.error('Error sending email:', error);
+  alert('Failed to send email!');
+}
+
+
+
+onClose();
+
+//
+
     }
     catch(err){
-        console.log(err)
+        console.log(err);
         Swal.fire({
             title: 'Failed!',
             text: 'Student data not save',
@@ -111,6 +144,14 @@ const StudentModal = ({ isOpen, onClose, onSave }) => {
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
+              type="email"
+              name="Email"
+              value={studentData.Email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
               type="password"
               name="Password"
               value={studentData.Password}
@@ -139,6 +180,7 @@ const StudentModal = ({ isOpen, onClose, onSave }) => {
             />
             <input
               type="date"
+              placeholder='Enrollment Date'
               name="EnrollmentDate"
               value={studentData.EnrollmentDate}
               onChange={handleChange}

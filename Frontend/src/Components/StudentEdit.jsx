@@ -51,7 +51,7 @@ const handleSaveChanges = async () => {
         text: 'Student data edited successfully!',
         icon: 'success',
         confirmButtonText: 'OK'
-      }).then(() => onClose()); // Close modal on success confirmation
+      }).then(() => onClose()); 
     }
   } catch (err) {
     console.log(err)
@@ -110,6 +110,14 @@ const handleSaveChanges = async () => {
             value={formData.MobileNo}
             onChange={handleChange}
             placeholder="Mobile No"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
+          />
+          <input
+            type="email"
+            name="Email"
+            value={formData.Email}
+            onChange={handleChange}
+            placeholder="Email"
             className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
           />
           <input

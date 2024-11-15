@@ -3,6 +3,9 @@ import { Button } from 'flowbite-react';
 import { FaUserEdit, FaSignOutAlt, FaUser, FaChalkboardTeacher, FaCogs, FaLaptop } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import StudentData from '../Components/StudentData';
+import Swal from 'sweetalert2';
+import TeachersData from '../Components/TeachersData';
+import Products from '../Components/Products';
 
 const AdminDashboard = () => {
 //location
@@ -27,15 +30,45 @@ const  adminData  = location.state?.adminData || {};
             <h1>{adminData.name}</h1>
         </div>;
       case 'teachers':
-        return <div className="p-4">Teachers Content</div>;
+        return <div className="p-4"><TeachersData/></div>;
       case 'settings':
         return <div className="p-4">Settings Content</div>;
+      case 'Products':
+        return <div className="p-4">
+          <Products/>
+        </div>;
       case 'editProfile':
         return <div className="p-4">Edit Profile Content</div>;
       default:
         return <div className="p-4">Welcome to Admin Dashboard</div>;
     }
   };
+
+
+//handle logout
+ const handleLogout = ()=>{
+  Swal.fire({
+    title: 'Are you sure?',
+    icon: 'error',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'Cancel'
+  }).then((response)=>{
+    if(response.isConfirmed){
+      
+        Swal.fire({
+          title: 'Success!',
+          text: `You have Logout successfully!`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+      });
+      window.location.href='http://localhost:5173/';
+      }
+    })
+    
+ }
+
+
 
   return (
     <div className="h-screen flex flex-col bg-gray-100">
@@ -56,7 +89,7 @@ const  adminData  = location.state?.adminData || {};
             <FaUserEdit className="mr-2" />
             Edit Profile
           </Button>
-          <Button color="failure" className='bg-purple-600'>
+          <Button color="failure" className='bg-purple-600' onClick={handleLogout}>
             <FaSignOutAlt className="mr-2" />
             Logout
           </Button>
@@ -87,6 +120,13 @@ const  adminData  = location.state?.adminData || {};
             >
               <FaChalkboardTeacher className="mr-2" />
               Teachers
+            </button>
+            <button
+              onClick={() => setActiveSection('Products')}
+              className={`flex items-center p-3 rounded-lg ${activeSection === 'Products' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'text-gray-700'}`}
+            >
+              <FaCogs className="mr-2" />
+              Products
             </button>
             <button
               onClick={() => setActiveSection('settings')}
