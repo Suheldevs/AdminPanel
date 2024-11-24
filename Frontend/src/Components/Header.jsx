@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {Avatar, Button, Dropdown, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle} from 'flowbite-react';
+import {Avatar, Button, Dropdown, Navbar, NavbarBrand,} from 'flowbite-react';
 import { Link } from 'react-router-dom';
 function Header() {
 const [signin, setSignin] = useState(true);
@@ -7,8 +7,8 @@ const [signin, setSignin] = useState(true);
   return (
     <Navbar className='border-b-2'>
         <NavbarBrand to="/" as={Link}>
-            <span className=''><Button gradientDuoTone="purpleToBlue">Admin</Button> </span>
-            <span className=''>Panel</span>
+            <span className=''><Button gradientDuoTone="purpleToPink">Admin</Button> </span>
+            <span className=''> Panel</span>
         </NavbarBrand>
         <div className='flex md:order-2'>
          {signin? 
@@ -16,7 +16,7 @@ const [signin, setSignin] = useState(true);
              arrowIcon = {false}
              inline
              label={
-                <Button gradientDuoTone="purpleToBlue" outline>Log In</Button> 
+                <Button gradientDuoTone="purpleToPink" outline>Log In</Button> 
              }
              >
                  
@@ -56,9 +56,11 @@ const [signin, setSignin] = useState(true);
         <Navbar.Link to="/" active as={Link}>
           Home
         </Navbar.Link>
-        <Navbar.Link to="#" as={Link}>About</Navbar.Link>
-        <Navbar.Link to="#" as={Link}>More Projects</Navbar.Link>
-        <Navbar.Link  to="#" as={Link}>Contact</Navbar.Link>
+        <Navbar.Link href="#About">About</Navbar.Link>
+        <Navbar.Link href="www.github.com/mohdsuheldevs">More Projects</Navbar.Link>
+        <Navbar.Link  href="#ContactUs">Contact</Navbar.Link>
+
+        <Navbar.Link  to="/student/login" className='text-red-600 ms-10 hover:text-red-500 'as={Link}>See Your Result !!</Navbar.Link>
         </Navbar.Collapse>
     </Navbar>
   )

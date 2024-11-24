@@ -6,6 +6,8 @@ import StudentData from '../Components/StudentData';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import StudentWorkspace from '../Components/StudentWorkSpace';
+import FaqPage from '../Components/Faq';
 
 const StudentDashboard = () => {
 //location
@@ -39,11 +41,12 @@ const printResult=()=>{
   const [activeSection, setActiveSection] = useState('WorkSpace');
 
   // Function to handle section switching
+
   const renderSection = () => {
     switch (activeSection) {
       case 'WorkSpace':
         return <div className="p-4">
-            {/* <StudentData/> */} <h1 className='bg-purple-600 text-center'>Student Work Space</h1>
+        <StudentWorkspace/>
         </div>;
       case 'ExamResult':
         return <div className="p-4">
@@ -121,7 +124,7 @@ EnrollmentDate}</p>
       case 'teachers':
         return <div classNameName="p-4">Teachers Content</div>;
       case 'faq':
-        return <div classNameName="p-4">Settings Content</div>;
+        return <div classNameName="p-4"><FaqPage/></div>;
       default:
         return <div classNameName="p-4">Welcome!  {studentData.Name} </div>;
     }
