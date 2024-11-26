@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from 'flowbite-react';
+import { Button, Spinner } from 'flowbite-react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 function AdminLogin() {
 const navigate = useNavigate();
+const [loading,setLoading] = useState(false);
 
   const {
     register,
@@ -15,9 +16,10 @@ const navigate = useNavigate();
 
   const onSubmit = async(data) => {
     console.log('Sign-in data:', data);
-    const apiKey = 'http://localhost:3000/admin/login';
+    const apiKey = `${import.meta.env.VITE_BACKEND_URL}/admin/login`;
 
     try{
+      setLoading(true)
       const response = await axios.post(apiKey,data);
       // Display success message using SweetAlert
     Swal.fire({
@@ -30,6 +32,7 @@ const navigate = useNavigate();
     console.log(adminData);
 navigate('/admin/dashboard', { state: { adminData}  });
 
+setLoading(false)
 
 
     }
@@ -41,7 +44,7 @@ navigate('/admin/dashboard', { state: { adminData}  });
         icon: 'error',
         confirmButtonText: 'Try Again!',
       });
-    
+    setLoading(false);
 
     }
 
@@ -50,7 +53,7 @@ navigate('/admin/dashboard', { state: { adminData}  });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-[90vh] bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Admin Log In</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -96,8 +99,8 @@ navigate('/admin/dashboard', { state: { adminData}  });
               <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
-          <Button type="submit" className="w-full" gradientDuoTone="purpleToPink">
-            Log In
+          <Button type="submit" className="w-full" gradientDuoTone="purpleToPink" disabled={loading}>
+           {loading?(<><Spinner size='sm'/> <span> Loading..</span></>):('Log In')}
           </Button>
         </form>
       </div>

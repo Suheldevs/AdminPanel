@@ -7,7 +7,7 @@ function Products() {
     const [products, setProduct] = useState([]);
     useEffect(() => {
         const getData = async () => {
-            const apiKey = 'http://localhost:3000/api/get'
+            const apiKey = `${import.meta.env.VITE_BACKEND_URL}/api/get`
             try {
                 const response = await axios.get(apiKey);
                 setProduct(response.data.productsData);
@@ -63,7 +63,7 @@ function Products() {
 
         //sending data to api
 
-        fetch("http://localhost:3000/api/products", { method: "POST", body: newProductData, })
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`, { method: "POST", body: newProductData, })
             .then((response) => response.json())
             .then((data) => {
                 console.log('Product add success', data);

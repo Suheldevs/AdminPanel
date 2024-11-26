@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 import {Avatar, Button, Dropdown, Navbar, NavbarBrand,} from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import { FaGithub } from 'react-icons/fa';
 function Header() {
 const [signin, setSignin] = useState(true);
 
   return (
     <Navbar className='border-b-2'>
+        <div className='flex justify-center items-center'>
         <NavbarBrand to="/" as={Link}>
             <span className=''><Button gradientDuoTone="purpleToPink">Admin</Button> </span>
-            <span className=''> Panel</span>
+            <span className=''> &nbsp; Panel</span> &nbsp; &nbsp; 
         </NavbarBrand>
+          <a href="https://github.com/Suheldevs/AdminPanel" target='blank' className='hover:cursor-pointer'><FaGithub/></a> 
+          </div>
         <div className='flex md:order-2'>
          {signin? 
              <Dropdown 
@@ -60,7 +64,7 @@ const [signin, setSignin] = useState(true);
         <Navbar.Link href="www.github.com/mohdsuheldevs">More Projects</Navbar.Link>
         <Navbar.Link  href="#ContactUs">Contact</Navbar.Link>
 
-        <Navbar.Link  to="/student/login" className='text-red-600 ms-10 hover:text-red-500 'as={Link}>See Your Result !!</Navbar.Link>
+        <Navbar.Link  to="/student/login" className='text-red-600 hover:text-red-500 'as={Link}>See Your Result !!</Navbar.Link>
         </Navbar.Collapse>
     </Navbar>
   )

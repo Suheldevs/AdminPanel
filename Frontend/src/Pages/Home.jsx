@@ -19,7 +19,7 @@ const Home = () => {
           of the highest quality and through initiatives that promote unity and meaningful
           social action for development.
         </p>
-        <div className="flex justify-center md:justify-start space-x-4">
+        <div className="flex lg:justify-center justify-between md:justify-start space-x-4">
           <Button className="px-6 py-2 bg-black text-white font-medium rounded hover:bg-gray-800" gradientDuoTone="purpleToPink">
             Know More About Us
           </Button>
@@ -32,7 +32,7 @@ const Home = () => {
       {/* Right Section */}
       <div className="relative mt-8 md:mt-0 md:w-1/2">
         <img
-          src='../src\assets\blonde-1297289_1920.png'
+          src='https://cdn.pixabay.com/photo/2016/03/31/22/56/blonde-1297289_1280.png'
           alt="Student"
           className="h-screen w-full rounded-lg"
         />
@@ -42,9 +42,6 @@ const Home = () => {
     </section>
     <div id="ContactUs">
     <ContactUs/>
-    </div>
-    <div id="About">
-    <Footer/>
     </div>
     </div>
   );

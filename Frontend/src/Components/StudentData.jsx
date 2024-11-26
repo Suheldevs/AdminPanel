@@ -40,7 +40,7 @@ const StudentData = ({student}) => {
   // Fetch data from the API 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/student/data'); 
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/student/data`); 
       setStudents(response.data.studentData); 
     } catch (error) {
       console.error('Error fetching student data:', error);
@@ -56,7 +56,7 @@ const StudentData = ({student}) => {
 const handleDelete= async(student)=>{
   console.log(student._id);
   const id = student._id;
-  const apiKey =`http://localhost:3000/student/delete/${id}`;
+  const apiKey =`${import.meta.env.VITE_BACKEND_URL}/student/delete/${id}`;
   Swal.fire({
     title: 'Are you sure?',
     text: 'This action cannot be undone!',
@@ -148,14 +148,18 @@ doc.save('userData.pdf');
 
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="lg:p-6 p-2 bg-gray-50 min-h-screen">
       <h2 className="text-2xl font-semibold text-center mb-6">Student List</h2>
 <div className='flex justify-between px-10 py-4'>
+<div className='flex lg:flex-row flex-col lg:gap-52 gap-4 justify-center items-center'>
     <div className='w-96'>
         <TextInput type='text' placeholder='Search Student' value={searchText} onChange={handleSearch}/>
     </div>
-    <Button onClick={exportToPDF}>Export to PDF</Button>
     <div className=''>
+
+    <Button onClick={exportToPDF}>Export to PDF</Button>
+    </div>
+    
     <div className="">
       {/* Button to open the modal */}
       <Button 

@@ -39,7 +39,7 @@ const handleSaveChanges = async () => {
     return;
   }
 
-  const apiKey = `http://localhost:3000/student/edit/${studentData._id}`;
+  const apiKey = `${import.meta.env.VITE_BACKEND_URL}/student/edit/${studentData._id}`;
   console.log(studentData);
 
   try {

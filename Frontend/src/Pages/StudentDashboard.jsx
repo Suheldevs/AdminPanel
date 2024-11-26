@@ -8,6 +8,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import StudentWorkspace from '../Components/StudentWorkSpace';
 import FaqPage from '../Components/Faq';
+import autoTable from 'jspdf-autotable';
 
 const StudentDashboard = () => {
 //location
@@ -16,25 +17,60 @@ const location = useLocation();
 const  studentData  = location.state?.studentData || {}; 
 
 
-const printResult=()=>{
-  const doc = new jsPDF();
-  doc.text('StudentResult',20,10);
-  //column asd row
 
-  const columns = ["Subject","Marks"]
-  const name = {"Name":studentData.Name}
-  const rows = studentData.marks.map(subject=>[
-    subject.subject,
-    subject.score
+const printResult = (studentData) => {
+  const doc = new jsPDF();
+
+  // Title
+  doc.setFontSize(16);
+  doc.text("12th Board Results", 105, 10, { align: "center" });
+  doc.setFontSize(12);
+  doc.text("Secondary School Certificate Examination 2024", 105, 18, { align: "center" });
+
+  // Student Info
+  doc.setFontSize(10);
+  doc.text(`Name of Student: ${studentData.Name}`, 20, 30);
+  doc.text(`Father's Name: ${studentData.FatherName}`, 20, 35);
+  doc.text(`Mother's Name: ${studentData.MotherName || "N/A"}`, 20, 40);
+  
+  doc.text(`Roll No: ${studentData.RollNo}`, 140, 30);
+  doc.text(`Enrollment No: ${studentData.EnrollNo}`, 140, 35);
+  doc.text(`Class: ${studentData.Class}`, 140, 40);
+
+  // Table Data
+  const columns = ["Sl. No", "Subject", "Numbers"];
+  const rows = studentData.marks.map((mark, index) => [
+    index + 1,
+    mark.subject,
+    mark.score,
   ]);
-  ///genrate table
-  doc.autoTable({
-    stratY:20,
-    head:[columns],
-    body:rows
+
+  // Add Table
+  autoTable(doc, {
+    startY: 50,
+    head: [columns],
+    body: rows,
+    theme: "grid",
   });
-  doc.save("reasult.pdf")
- }
+
+  // Total and Grade
+  const totalMarks = studentData.marks.reduce((sum, mark) => sum + mark.score, 0);
+  const grade = totalMarks >= 270 ? "A+" : totalMarks >= 240 ? "A" : "B";
+
+  doc.setFontSize(12);
+  doc.text(`Grand Total: ${totalMarks}`, 20, doc.lastAutoTable.finalY + 10);
+  doc.text(`Grade: ${grade}`, 140, doc.lastAutoTable.finalY + 10);
+
+  // Date of Publication
+  doc.setFontSize(10);
+  doc.text(`Date of Publication of Result: ${new Date().toISOString()}`, 20, doc.lastAutoTable.finalY + 20);
+
+  // Save the PDF
+  doc.save(`${studentData.Name}_Result`);
+};
+
+
+
 
 
   // State for the active section
@@ -45,11 +81,11 @@ const printResult=()=>{
   const renderSection = () => {
     switch (activeSection) {
       case 'WorkSpace':
-        return <div className="p-4">
+        return <div className="lg:p-4 sm:p-0 sm:m-0">
         <StudentWorkspace/>
         </div>;
       case 'ExamResult':
-        return <div className="p-4">
+        return <div className="lg:p-4 sm:p-0 sm:m-0 ">
             <div className="container mx-auto p-6 bg-white shadow-lg border border-gray-200 rounded-lg">
   {/* Header */}
   <h2 className="text-center text-2xl font-bold text-gray-700 mb-4">{studentData.Class}th Board Results</h2>
@@ -118,15 +154,15 @@ EnrollmentDate}</p>
   </div>
 </div>
 <div className='flex justify-center'>
-<Button className='mt-4' onClick={printResult}>Print</Button>
+<Button className='mt-4' onClick={printResult(studentData)} color='dark' outline>Print</Button>
 </div>
         </div>;
       case 'teachers':
-        return <div classNameName="p-4">Teachers Content</div>;
+        return <div classNameName="lg:p-4 sm:p-0">Teachers Content</div>;
       case 'faq':
-        return <div classNameName="p-4"><FaqPage/></div>;
+        return <div classNameName="lg:p-4 sm:p-0"><FaqPage/></div>;
       default:
-        return <div classNameName="p-4">Welcome!  {studentData.Name} </div>;
+        return <div classNameName="lg:p-4 sm:p-0">Welcome!  {studentData.Name} </div>;
     }
   };
 
@@ -146,7 +182,7 @@ EnrollmentDate}</p>
             icon: 'success',
             confirmButtonText: 'OK'
         });
-        window.location.href='http://localhost:5173/';
+        window.location.href='https://school-admin-panel.netlify.app/';
         }
       })
       
@@ -158,13 +194,9 @@ EnrollmentDate}</p>
       {/* Header */}
       <header className="flex items-center justify-between bg-gradient-to-r from-purple-500 to-pink-500  text-white p-4 shadow-md">
         <div className="flex items-center">
-          <img
-            src="https://via.placeholder.com/40"
-            alt="Admin"
-            className="w-12 h-12 rounded-full mr-3"
-          />
+          
           <div>
-            <h2 className="text-lg font-semibold">{studentData.Name}</h2>
+            <h2 className="text-lg font-semibold">Wellcome! <span className='text-lg font-normal'> {studentData.Name}</span></h2>
           </div>
         </div>
         <div className="flex gap-4">
@@ -212,7 +244,7 @@ EnrollmentDate}</p>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 bg-white p-6 overflow-auto">
+        <main className="flex-1 bg-white lg:p-6 p-2 overflow-auto">
           {renderSection()}
         </main>
       </div>

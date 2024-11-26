@@ -6,6 +6,7 @@ import StudentData from '../Components/StudentData';
 import Swal from 'sweetalert2';
 import TeachersData from '../Components/TeachersData';
 import Products from '../Components/Products';
+import AdminMain from '../Components/AdminDashboardMain';
 
 const AdminDashboard = () => {
 //location
@@ -22,21 +23,18 @@ const  adminData  = location.state?.adminData || {};
   const renderSection = () => {
     switch (activeSection) {
       case 'students':
-        return <div className="p-4">
+        return <div className="lg:p-4 p-0">
             <StudentData/>
         </div>;
       case 'dashboard':
-        return <div className="p-4">
-            <h1>{adminData.name}</h1>
+        return <div className="lg:p-4 p-0">
+           <AdminMain/>
         </div>;
       case 'teachers':
         return <div className="p-4"><TeachersData/></div>;
       case 'settings':
         return <div className="p-4">Settings Content</div>;
-      case 'Products':
-        return <div className="p-4">
-          <Products/>
-        </div>;
+      
       case 'editProfile':
         return <div className="p-4">Edit Profile Content</div>;
       default:
@@ -62,7 +60,7 @@ const  adminData  = location.state?.adminData || {};
           icon: 'success',
           confirmButtonText: 'OK'
       });
-      window.location.href='http://localhost:5173/';
+      window.location.href='https://school-admin-panel.netlify.app/';
       }
     })
     
@@ -75,13 +73,9 @@ const  adminData  = location.state?.adminData || {};
       {/* Header */}
       <header className="flex items-center justify-between bg-gradient-to-r from-purple-500 to-pink-500  text-white p-4 shadow-md">
         <div className="flex items-center">
-          <img
-            src="https://via.placeholder.com/40"
-            alt="Admin"
-            className="w-12 h-12 rounded-full mr-3"
-          />
+          
           <div>
-            <h2 className="text-lg font-semibold">{adminData.name}</h2>
+            <h2 className="text-lg font-semibold">Welcome! {adminData.name}</h2>
           </div>
         </div>
         <div className="flex gap-4">
@@ -121,13 +115,7 @@ const  adminData  = location.state?.adminData || {};
               <FaChalkboardTeacher className="mr-2" />
               Teachers
             </button>
-            <button
-              onClick={() => setActiveSection('Products')}
-              className={`flex items-center p-3 rounded-lg ${activeSection === 'Products' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'text-gray-700'}`}
-            >
-              <FaCogs className="mr-2" />
-              Products
-            </button>
+            
             <button
               onClick={() => setActiveSection('settings')}
               className={`flex items-center p-3 rounded-lg ${activeSection === 'settings' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'text-gray-700'}`}
@@ -139,7 +127,7 @@ const  adminData  = location.state?.adminData || {};
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 bg-white p-6 overflow-auto">
+        <main className="flex-1 bg-white lg:p-6 p-2 overflow-auto">
           {renderSection()}
         </main>
       </div>

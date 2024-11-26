@@ -7,7 +7,7 @@ function TeachersData() {
     const [teacher,setTeacher] = useState([]);
     useEffect(()=>{
         const getData = async() =>{
-            const  apiKey = 'http://localhost:3000/teacher/get'
+            const  apiKey = `${import.meta.env.VITE_BACKEND_URL}/teacher/get`
           try{
               const response = await axios.get(apiKey);
               setTeacher(response.data.teacherData)
@@ -44,7 +44,6 @@ const [showModal, setShowModal] = useState(false);
     };
 
     const handleSaveChanges = () => {
-        // Save changes logic here
         console.log(editData);
         handleCloseModal();
     };
@@ -62,9 +61,13 @@ const [showModal, setShowModal] = useState(false);
     <div>
       <div className='bg-purple-500 text-center my-4 text-3xl text-white'>Teachers</div>
       <div className='flex justify-between mb-4'>
-        <div classame=''></div>
+        <div classame=''>
+        <div className='w-96'>
+        <TextInput type='text' placeholder='Search Teachers' />
+    </div>
+        </div>
       <Button gradientDuoTone='purpleToPink' onClick={handleOpenModal}>
-                Flowbit
+                Add Teacher
             </Button>
             </div>
         <div className='min-h-screen'>

@@ -6,6 +6,7 @@ import StudentLogin from './Pages/Student-login'
 import AdminDashboard from './Pages/AdminDashboard'
 import StudentDashboard from './Pages/StudentDashboard'
 import Home from './Pages/Home'
+import Footer from './Components/Footer'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
       <Route path='/student/dashboard' element={<StudentDashboard/>}/>
     </Routes>
+    <Footer/>
     </BrowserRouter>
   )
 }

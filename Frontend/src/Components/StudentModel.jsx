@@ -43,7 +43,7 @@ const StudentModal = ({ isOpen, onClose, onSave }) => {
       
     // }
 console.log(studentData);
-    const apiKey = 'http://localhost:3000/admin/student/register';
+    const apiKey = `${import.meta.env.VITE_BACKEND_URL}/admin/student/register`;
     try{
       console.log(studentData)
       const response = await axios.post(apiKey, studentData);

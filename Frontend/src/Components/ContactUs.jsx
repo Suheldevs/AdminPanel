@@ -29,18 +29,18 @@ const ContactUs = () => {
           <div className="space-y-2">
             <p className="flex items-center justify-center space-x-2 text-gray-600">
               <span>📞</span>
-              <span>+91 522 2638606</span>
+              <span>+91 9519838720</span>
             </p>
             <p className="flex items-center justify-center space-x-2 text-gray-600">
               <span>📧</span>
-              <span>qaid@cmseducation.org</span>
+              <span>mohdsuhel.dev@gmail.com</span>
             </p>
           </div>
         </div>
       </div>
 
       {/* Newsletter Section */}
-      <div className="bg-pink-700 text-white rounded-lg p-8 space-y-6">
+      <div className="bg-pink-500 text-white rounded-lg p-8 space-y-6">
         <h3 className="text-xl font-bold">Subscribe to our Newsletter!</h3>
         <p className="text-sm">Stay updated with our weekly bulletin.</p>
 
