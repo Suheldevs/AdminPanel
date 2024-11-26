@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongodbURL = 'mongodb://localhost:27017/AdminPanel';
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-
-
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv')
+dotenv.config();
 const app = express();
 app.use(cors());
+const mongodbURL = `${process.env.MONGO}/AdminPanel`;
 
 //create 'uploads' dr if it dosn't exist
 
@@ -140,16 +141,61 @@ const Student = mongoose.model('Student', studentSchema);
 app.post('/admin/student/register', async (req, res) => {
     try {
         const studentData = req.body;
-        const newStudent = new Student(studentData);
-        if(!newStudent){
-            res.status(400).json({message:'Please fill all field'})
+
+        // Check if required fields are missing
+        if (!studentData.Name || !studentData.Email || !studentData.Password || !studentData.RollNo) {
+            return res.status(400).json({ message: 'Please fill all fields' });
         }
+
+        // Save student data in the database
+        const newStudent = new Student(studentData);
         await newStudent.save();
-        res.status(200).json({ message: 'Student data saved successfully!', newStudent });
+
+        // Nodemailer setup
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.EMAIL_USER, // Use environment variables for security
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        // Email content
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: studentData.Email,
+            subject: 'Your School Login Credentials',
+            text: `Hi ${studentData.Name},
+
+This email is from your school. Here are your login credentials:
+
+Password: ${studentData.Password}
+Roll No: ${studentData.RollNo}
+
+Please keep this information confidential.
+
+Regards,
+School Administration`,
+        };
+
+        // Send email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Email Error:', error);
+                return res.status(500).json({ message: 'Student saved, but email not sent.', error });
+            } else {
+                console.log('Email sent:', info.response);
+                return res.status(200).json({ message: 'Student data saved and email sent successfully!', newStudent });
+            }
+        });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error('Error:', err);
+        res.status(500).json({ message: 'An error occurred.', error: err.message });
     }
 });
+
 
 
 

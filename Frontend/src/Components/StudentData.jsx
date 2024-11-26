@@ -38,15 +38,15 @@ const StudentData = ({student}) => {
 
 
   // Fetch data from the API 
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/student/data'); 
+      setStudents(response.data.studentData); 
+    } catch (error) {
+      console.error('Error fetching student data:', error);
+    }
+  };
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/student/data'); 
-        setStudents(response.data.studentData); 
-      } catch (error) {
-        console.error('Error fetching student data:', error);
-      }
-    };
 
     fetchStudents();
   }, []);
@@ -65,7 +65,7 @@ const handleDelete= async(student)=>{
     confirmButtonText: 'Yes, delete it!',
     cancelButtonText: 'Cancel'
   }).then(async(response)=>{
-    if(response.ok){
+    if(response.isConfirmed){
       try{
         const response = await axios.delete(apiKey);
         Swal.fire({
@@ -74,6 +74,7 @@ const handleDelete= async(student)=>{
           icon: 'success',
           confirmButtonText: 'OK'
       });
+      fetchStudents();
       }
       catch (err) {
         Swal.fire({

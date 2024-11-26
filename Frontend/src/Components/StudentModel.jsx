@@ -53,34 +53,7 @@ console.log(studentData);
         icon: 'success',
         confirmButtonText: 'OK',
       });
-     
-
-//sending email
-const templateParams = {
-  Name:studentData.Name,
-  Email: studentData.Email,
-  Password: studentData.Password,
-};
-
-try {
-  const response = await emailjs.send(
-    "serviceID",
-    "template_f0nnzfl",
-    templateParams,
-  );
-  console.log('Email sent successfully:', response);
-  alert('Student added, email sent with password!');
-} catch (error) {
-  console.error('Error sending email:', error);
-  alert('Failed to send email!');
-}
-
-
-
 onClose();
-
-//
-
     }
     catch(err){
         console.log(err);
@@ -91,16 +64,13 @@ onClose();
             confirmButtonText: 'Try Again!',
           });
     }
-
-
-
   };
 
   return (
       <Dialog open={isOpen} onClose={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-800 bg-opacity-75">
       <Dialog.Panel className="w-full max-w-lg p-6 bg-white rounded-lg">
         <div className='max-h-[90vh] overflow-y-scroll '>
-        <Dialog.Title className="text-2xl font-semibold text-gray-700 mb-4">Add / Edit Student</Dialog.Title>
+        <Dialog.Title className="text-2xl font-semibold text-gray-700 mb-4">Add Student</Dialog.Title>
         <form>
           <div className="grid grid-cols-1 gap-4">
             <input
